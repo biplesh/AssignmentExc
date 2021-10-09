@@ -1,0 +1,114 @@
+This project have five REST API end point  for getting data of exchange rate of currency .Base currency is EUR.
+
+1.@GetMapping("loadExchangeRateLast12Months")
+
+API load last 12 month exchange rate of only three currency i.e USD,GBP,HKD staring form current month of the current year using 
+an call of external API
+
+
+Request URL - http://localhost:8080/loadExchangeRateLast12Months
+Response - SUCCESS
+
+===============================================================================================================================
+
+2.@GetMapping("getExchangeRateForYear/{year}")
+
+API load 12 month exchange rate of all currency staring form first month of the given year in format(YYYY) using 
+an call of external API
+ 
+Request URL - http://localhost:8080/getExchangeRateForYear/{year}
+Response - SUCCESS
+
+
+=================================================================================================================================
+
+3.@GetMapping("loadExchangeRateByDate/{date}")
+
+API load exchange rate of all currency of particular date(YYYY-MM-DD) by calling external API
+
+Request URL - http://localhost:8080/loadExchangeRateByDate/{date} 
+Response - SUCCESS
+
+
+
+
+=================================================================================================================================
+4.@RequestMapping(value = "/getExchangeRateGBPByDate/{date}", method = RequestMethod.GET)
+
+API give the exchange rate of currency GBP of particular date(YYYY-MM-DD) fetch date from h2 database
+
+Request URL - http://localhost:8080/getExchangeRateGBPByDate/{date}
+
+Sample 1: 
+
+Request- http://localhost:8080/getExchangeRateGBPByDate/2021-01-01
+
+Response-
+{
+    "id": 1403,
+    "currency": "GBP",
+    "rate": 0.890496
+}
+
+
+Sample 2:
+
+Request -http://localhost:8080/getExchangeRateGBPByDate/2021-33-01
+Response- Invalid date, required format is YYYY-MM-DD
+
+=================================================================================================================================
+5.@RequestMapping(value = "/getExchangeRateByDateRange/{fromDate}/{toDate}", method = RequestMethod.GET)
+
+API give the exchange rate of all currency for a date range specified, date format is YYYY-MM-DD
+
+Request URL-
+
+Sample 1
+
+Request URL- http://localhost:8080/getExchangeRateByDateRange/2021-01-01/2021-02-01
+Response -
+ {
+        "ex_id": 1353,
+        "base": "EUR",
+        "date": "2020-12-31",
+        "rateModels": [
+            {
+                "id": 1354,
+                "currency": "AED",
+                "rate": 4.472405
+            },
+            {
+                "id": 1355,
+                "currency": "AFN",
+                "rate": 94.449471
+            },
+            {
+                "id": 1356,
+                "currency": "ALL",
+                "rate": 123.367457
+            },
+            {
+                "id": 1357,
+                "currency": "AMD",
+                "rate": 636.293426
+            },
+            {
+                "id": 1358,
+                "currency": "ANG",
+                "rate": 2.196411
+            },
+            {
+                "id": 1359,
+                "currency": "AOA",
+                "rate": 796.489873
+            },
+            {
+                "id": 1360,
+                "currency": "ARS",
+                "rate": 103.634513
+            },
+            {
+                "id": 1361,
+                "currency": "AUD",
+                "rate": 1.582666
+            },...
