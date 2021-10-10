@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.assignment.Assignment.beans.ExchangeBean;
+import com.assignment.Assignment.exception.ResoureNotFoundException;
 import com.assignment.Assignment.model.ExchangeRateModel;
 import com.assignment.Assignment.model.RateModel;
 import com.assignment.Assignment.repository.ExchangeRepository;
@@ -214,15 +215,17 @@ public class ExchangeRates {
 		}
 		try {
 			rates = rateRepository.findByCurrencyAndExchangeRateModelDate("GBP", date);
+					
 		} catch (Exception e) {
 			e.printStackTrace();
+		
 			errorMsg = "Some Internal Error: " + e.getMessage();
 			return new ResponseEntity<Object>(errorMsg, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		if (rates == null) {
-			errorMsg = "No Record found";
-			return new ResponseEntity<Object>(errorMsg, HttpStatus.NO_CONTENT);
+		
+			throw  new ResoureNotFoundException("Record not found for given date");
 		}
 
 		return new ResponseEntity<Object>(rates, HttpStatus.OK);
@@ -259,7 +262,8 @@ public class ExchangeRates {
 		}
 
 		if (rates == null || rates.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			//return new ResponseEntity(HttpStatus.NO_CONTENT);
+			throw  new ResoureNotFoundException("Record not found for given date");
 		}
 
 		return new ResponseEntity<List<ExchangeRateModel>>(rates, HttpStatus.OK);
