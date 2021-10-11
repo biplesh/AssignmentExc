@@ -36,8 +36,9 @@ public class ExchangeRates {
 	private final String GLOBAL_ERROR = "Some technical Error Please try again after some time";
 
 	private static String URL = "http://api.exchangeratesapi.io/v1/";
-
-	private static final String access_key = "3333aeed56ddf356fcf26c83269cd537";
+	
+	@Value("${api.access_key}")
+	private  String access_key ;
 
 	private static final String base = "EUR";
 
@@ -60,7 +61,7 @@ public class ExchangeRates {
 	 * @return
 	 */
 
-	@GetMapping("loadExchangeRateLast12Months")
+	@GetMapping("last_twelev_month_exchange_rate")
 	public String loadExchangeRateLast12Months() {
 		try {
 
@@ -116,7 +117,7 @@ public class ExchangeRates {
 	 * @return
 	 */
 
-	@GetMapping("getExchangeRateForYear/{year}")
+	@GetMapping("exchage_rate_for_year/{year}")
 	public String getExchangeRateForYear(@PathVariable("year") String year) {
 		try {
 
@@ -171,7 +172,7 @@ public class ExchangeRates {
 	 * @return @ExchangeBean
 	 */
 
-	@GetMapping("loadExchangeRateByDate/{date}")
+	@GetMapping("exchange_rate_by_date/{date}")
 	public String loadExchangeRateSpecficDate(@PathVariable("date") String date) {
 		ExchangeBean response = null;
 		try {
@@ -201,7 +202,7 @@ public class ExchangeRates {
 	 * @param date
 	 * @return
 	 */
-	@RequestMapping(value = "/getExchangeRateGBPByDate/{date}", method = RequestMethod.GET)
+	@RequestMapping(value = "/gbp_exchange_rate_by_date/{date}", method = RequestMethod.GET)
 	public ResponseEntity<Object> getExchangeRateGBPByDate(@PathVariable("date") String date1) {
 		RateModel rates = null;
 		String errorMsg = null;
@@ -239,7 +240,7 @@ public class ExchangeRates {
 	 * @return
 	 */
 
-	@RequestMapping(value = "/getExchangeRateByDateRange/{fromDate}/{toDate}", method = RequestMethod.GET)
+	@RequestMapping(value = "/all_exchange_rate_by_date_range/{fromDate}/{toDate}", method = RequestMethod.GET)
 	public ResponseEntity<List<ExchangeRateModel>> getAllByDateRange(@PathVariable("fromDate") String fromDate,
 			@PathVariable("toDate") String toDate) {
 
