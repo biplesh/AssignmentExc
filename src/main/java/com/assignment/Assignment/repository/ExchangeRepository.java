@@ -13,7 +13,7 @@ import com.assignment.Assignment.model.ExchangeRateModel;
 @Repository
 public interface ExchangeRepository extends CrudRepository<ExchangeRateModel, Long> {
 
-	List<ExchangeRateModel> findAllByDateAndRateModelsCurrency(Date date, String currency);
+	//List<ExchangeRateModel> findAllByDateAndRateModelsCurrency(Date date, String currency);
 
 	List<ExchangeRateModel> findAllByDateGreaterThanEqualAndDateLessThanOrderByDateAsc(Date form_date,Date to_date);
 		

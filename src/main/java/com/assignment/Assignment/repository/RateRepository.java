@@ -11,7 +11,7 @@ import com.assignment.Assignment.model.RateModel;
 @Repository
 public interface RateRepository extends JpaRepository<RateModel, Long>{
 
-	List<RateModel> findAllByCurrencyAndExchangeRateModelDate(String string, Date date);
+	//List<RateModel> findAllByCurrencyAndExchangeRateModelDate(String string, Date date);
 
 	RateModel findByCurrencyAndExchangeRateModelDate(String string, Date date);
 
