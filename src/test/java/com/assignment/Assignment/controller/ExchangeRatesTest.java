@@ -61,13 +61,13 @@ public class ExchangeRatesTest {
 		java.util.Date date = sdf1.parse(startDate);
 		java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
 
-		Mockito.when(rateRepository.findByCurrencyAndExchangeRateModelDate(Mockito.anyString(), sqlStartDate))
+		Mockito.when(rateRepository.findByCurrencyAndExchangeRateModelDate(rates.getCurrency(), sqlStartDate))
 				.thenReturn(rates);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/gbp_exchange_rate_by_date/date")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/gbp_exchange_rate_by_date/startDate")
 				.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-		String expected = "{\"id\":\"1\",\"currency\":\"GBP\",\"rate\":\"0.890496\"}";
+		String expected = "{\"id\":\"1\",\"currency\":\"GBP\",\"rate\":\"0.853913\"}";
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
 
 	}
@@ -112,20 +112,39 @@ public class ExchangeRatesTest {
 	}
 
 	void getExchangeRatesByDateRange() throws Exception {
+		
 		List<ExchangeRateModel> rates = new ArrayList<ExchangeRateModel>();
 		List<RateModel> rate = new ArrayList<RateModel>();
-
+		List<RateModel> rate1 = new ArrayList<RateModel>();
 		ExchangeRateModel exchangeRateModel = new ExchangeRateModel();
+		ExchangeRateModel exchangeRateModel1 = new ExchangeRateModel();
+		
 		RateModel rateModel = new RateModel();
 		rateModel.setCurrency("AED");
 		rateModel.setRate(4.472405);
 		rateModel.setId(1L);
+		
+		RateModel rateModel1 = new RateModel();
+		rateModel1.setCurrency("GBP");
+		rateModel1.setRate(0.853913);
+		rateModel1.setId(2L);
+		
 		rate.add(rateModel);
+		rate1.add(rateModel1);
+		
 		exchangeRateModel.setBase("EUR");
 		exchangeRateModel.setDate(java.sql.Date.valueOf("2021-08-01"));
 		exchangeRateModel.setEx_id(11L);
 		exchangeRateModel.setRateModels(rate);
-
+		
+		exchangeRateModel1.setBase("EUR");
+		exchangeRateModel1.setDate(java.sql.Date.valueOf("2021-01-01"));
+		exchangeRateModel1.setEx_id(12L);
+		exchangeRateModel1.setRateModels(rate1);
+		
+		rates.add(exchangeRateModel);
+		rates.add(exchangeRateModel1);
+		
 		java.sql.Date form_date = java.sql.Date.valueOf("2021-01-01");
 		java.sql.Date to_date = java.sql.Date.valueOf("2021-08-01");
 
@@ -137,6 +156,7 @@ public class ExchangeRatesTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		String expected = "[{\"ex_id\":\"11\",\"base\":\"EUR\",\"date\":\"2021-08-01\",\"rateModels\":{\"id\":\"1\",\"currency\":\"AED\",\"rate\":\"4.472405\"}}]";
 		JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
+		
 	}
 
 	@Test
